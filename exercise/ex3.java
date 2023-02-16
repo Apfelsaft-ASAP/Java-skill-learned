@@ -13,3 +13,4 @@ class ex3 {                                          //
         System.out.println(answer);
     }
 }
+
