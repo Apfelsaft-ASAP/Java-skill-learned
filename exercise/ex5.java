@@ -1,5 +1,8 @@
-class Solution {
-    public int solution(String s) {
+package exercise;
+class ex5 {
+    public static void main(String[] args) {
+        String s = "12334";
+
         int answer = 0;
 
         char p = '+';                                           //+, - 변수 선언한다.
@@ -25,12 +28,12 @@ class Solution {
         }
         if (ch[0] == p) {
             int result = +answer;
-            return result;
+            System.out.println(result);
         }else if (ch[0]==m) {
             int result = -answer;
-            return result;
+            System.out.println(result);
         }else {
-            return answer;
+            System.out.println(answer);
         }
 
     }
