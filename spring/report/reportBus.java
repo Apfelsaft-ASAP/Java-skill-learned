@@ -143,37 +143,3 @@ class Vehicle {
         this.status = status;
     }
 }
-
-class Main {
-    public static void main(String[] args) {
-
-
-        Vehicle myBus1 = new Vehicle(30, 1000, 100);
-        Vehicle myBus2 = new Vehicle(30, 1000, 100);
-
-        myBus1.busStatus();
-        myBus2.busStatus();
-        myBus1.addPassenger(2);
-        myBus1.useFuel(-50);
-        myBus1.changeStatus();
-        myBus1.useFuel(10);
-        myBus1.changeStatus();
-        myBus1.addPassenger(45);
-        myBus1.addPassenger(5);
-        myBus1.useFuel(-55);
-
-
-
-//        myBus.changeStatus();
-//        myBus.addPassenger();
-//        myBus.changeSpeed(30);
-//        myBus.setFuel(5);
-//        myBus.addPassenger();
-//        myBus.changeStatus();
-//        myBus.changeSpeed(30);
-//        myBus.changeSpeed(30);
-
-
-
-    }
-}
