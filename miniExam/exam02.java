@@ -1,3 +1,5 @@
+package miniExam;
+
 public class exam02 {
     public int solution(String s) {
         int answer = 0;                         // 점수값

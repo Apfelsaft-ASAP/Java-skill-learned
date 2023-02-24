@@ -1,3 +1,5 @@
+package miniExam;
+
 public class exam01 {
     public int solution(int num) {
         int answer = 0;                 //answer 값은 단돈의 카운트 값이다.
