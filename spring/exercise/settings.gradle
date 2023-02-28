@@ -1,0 +1,3 @@
+package spring.exercise
+
+rootProject.name = 'spring-ioc-di-init'
