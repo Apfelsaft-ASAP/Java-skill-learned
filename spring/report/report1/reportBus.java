@@ -1,4 +1,4 @@
-package spring.report;
+package spring.report.report1;
 
 class Vehicle {
     int maxPassenger;
