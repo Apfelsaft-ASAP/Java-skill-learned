@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -19,11 +20,11 @@ public class Board extends Timestamped{
     @Column(nullable = false)
     private String titles;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
-    private String password;
+//    @Column(nullable = false)
+//    private String password;
 
     @Column(nullable = false)
     private String contents;
@@ -31,13 +32,16 @@ public class Board extends Timestamped{
     @Column(nullable = false)
     private Long userId;
 
-    public boolean getPassword(String password) {
-        return this.password.equals(password);
-    }
+//    public boolean getPassword(String password) {
+//        return this.password.equals(password);
+//    }
 
-    public Board(BoardRequestDto requestDto, Long userId) {
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
+
+    public Board(BoardRequestDto requestDto, String username) {
         this.titles = requestDto.getTitles();
-//        this.username = requestDto.getUsername();
+        this.username = requestDto.getUsername();
 //        this.password = requestDto.getPassword();
         this.contents = requestDto.getContents();
         this.userId = userId;
