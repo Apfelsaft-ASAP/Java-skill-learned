@@ -14,28 +14,24 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-
 public class UserService {
-
-    private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
+    private final UserRepository userRepository;
 
     @Transactional
     public void signup(SignupRequestDto signupRequestDto) {
         String username = signupRequestDto.getUsername();
         String password = signupRequestDto.getPassword();
-
-        //회원중복황인
-
+        //회원 중복확인
         Optional<User> found = userRepository.findByUsername(username);
-        if (found.isPresent()) {
-            throw new IllegalArgumentException("중복된 이름이 존재합니다.");
+        if(found.isPresent()) {
+            throw  new IllegalArgumentException("중복된 이름이 존재합니다.");
         }
         User user = new User(username, password);
         userRepository.save(user);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public void login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
         String username = loginRequestDto.getUsername();
         String password = loginRequestDto.getPassword();
@@ -45,7 +41,7 @@ public class UserService {
                 () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
         );
         //비밀번호확인
-        if(!user.getPassword().equals(password)) {
+        if(!password.equals(user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 

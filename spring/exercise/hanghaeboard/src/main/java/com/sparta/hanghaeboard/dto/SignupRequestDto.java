@@ -3,27 +3,14 @@ package com.sparta.hanghaeboard.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.regex.Pattern;
+import javax.validation.constraints.Pattern;
 
-@Setter
 @Getter
+@Setter
 public class SignupRequestDto {
-    private static final String USERNAME_PATTERN = "^[a-z|0-9]{4,10}$";
-    private static final String PASSWORD_PATTERN = "^(?=.*[A-Z|a-z])(?=.*\\d)[A-Z|a-z\\d]{8,15}$";
+    @Pattern(regexp = "^[a-z0-9]{4,10}$", message = "아이디는 알파벳 소문자와 숫자를 포함한 4-10자리여야 합니다.")
     private String username;
+
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\\\d)(?=.*[!@#$%^&*])[A-Za-z\\\\d!@#$%^&*]{8,15}$", message = "비밀번호는 알파벳 대소문자와 숫자, 특수문자를 포함한 8-15자리여야 합니다.")
     private String password;
-
-    public void setUsername(String username) {
-        if(!Pattern.matches(USERNAME_PATTERN, username)) {
-            throw new IllegalArgumentException("잘못된 이름입니다. 4~10자의 길이로 구성되어야 하며 소문자(a-z)와 숫자(0-9)만 포함되어야합니다.");
-        }
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        if(!Pattern.matches(PASSWORD_PATTERN, password)) {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다. 8~15자의 길이로 구성되어야 하며 대소문자(a-z, A-Z)와 숫자(0-9)가 포함되어야합니다.");
-        }
-        this.password = password;
-    }
 }

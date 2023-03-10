@@ -1,59 +1,44 @@
 package com.sparta.hanghaeboard.entity;
 
-
 import com.sparta.hanghaeboard.dto.BoardRequestDto;
-import com.sparta.hanghaeboard.entity.Timestamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor
 public class Board extends Timestamped{
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String titles;
+    private String title;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
+    private String content;
+
+    @Column(nullable = false)
     private String username;
 
-//    @Column(nullable = false)
-//    private String password;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(nullable = false)
-    private String contents;
-
-    @Column(nullable = false)
-    private Long userId;
-
-//    public boolean getPassword(String password) {
-//        return this.password.equals(password);
-//    }
-
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
-
-    public Board(BoardRequestDto requestDto, String username) {
-        this.titles = requestDto.getTitles();
-        this.username = requestDto.getUsername();
-//        this.password = requestDto.getPassword();
-        this.contents = requestDto.getContents();
-        this.userId = userId;
+    public Board(BoardRequestDto boardRequestDto, String username) {
+        this.title = boardRequestDto.getTitle();
+        this.content = boardRequestDto.getContent();
+        this.username = username;
     }
 
-
-    public void update(BoardRequestDto requestDto) {
-        this.titles = requestDto.getTitles();
-//        this.username = requestDto.getUsername();
-//        this.password = requestDto.getPassword();
-        this.contents = requestDto.getContents();
+    public void update(BoardRequestDto boardRequestDto) {
+        this.title = boardRequestDto.getTitle();
+        this.content = boardRequestDto.getContent();
+        this.username = username;
     }
 }
-
-
