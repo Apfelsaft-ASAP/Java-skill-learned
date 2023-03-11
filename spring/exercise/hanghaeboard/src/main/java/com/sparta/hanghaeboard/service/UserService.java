@@ -5,10 +5,12 @@ import com.sparta.hanghaeboard.dto.SignupRequestDto;
 import com.sparta.hanghaeboard.entity.User;
 import com.sparta.hanghaeboard.jwt.JwtUtil;
 import com.sparta.hanghaeboard.repository.UserRepository;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
@@ -46,5 +48,18 @@ public class UserService {
         }
 
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername()));
+    }
+
+    public User tokenCheck(HttpServletRequest request) {
+        String token = jwtUtil.resolveToken(request);
+
+        if (token ==null || !jwtUtil.validateToken(token)) {
+            throw new IllegalArgumentException("Token Error");
+        }
+        Claims claims = jwtUtil.getUserInfoFromToken(token);
+
+        return userRepository.findByUsername(claims.getSubject()).orElseThrow(
+                () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+        );
     }
 }

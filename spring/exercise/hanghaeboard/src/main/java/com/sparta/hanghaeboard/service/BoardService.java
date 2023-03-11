@@ -23,6 +23,7 @@ import java.util.List;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
     private final JwtUtil jwtUtil;
 
 
@@ -33,89 +34,84 @@ public class BoardService {
 
     @Transactional
     public BoardResponseDto createBoard(BoardRequestDto boardRequestDto, HttpServletRequest request) {
-        //Request에서 Token 가져오기
-        String token = jwtUtil.resolveToken(request);
-        Claims claims;
+//        //Request에서 Token 가져오기
+//        String token = jwtUtil.resolveToken(request);
+//        Claims claims;
+//
+//        //토큰이 있는 경우에만 게시물 작성 가능
+//        if (token != null) {
+//            if (jwtUtil.validateToken(token)) {
+//                claims = jwtUtil.getUserInfoFromToken(token);
+//            } else {
+//                throw new IllegalArgumentException("Token Error");
+//            }
+//
+//            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
+//                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+//            );
+        User user = userService.tokenCheck(request);
 
-        //토큰이 있는 경우에만 게시물 작성 가능
-        if (token != null) {
-            if (jwtUtil.validateToken(token)) {
-                claims = jwtUtil.getUserInfoFromToken(token);
-            } else {
-                throw new IllegalArgumentException("Token Error");
-            }
+        Board board = boardRepository.saveAndFlush(new Board(boardRequestDto, user.getUsername()));
 
-            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
-            );
-
-            Board board = boardRepository.saveAndFlush(new Board(boardRequestDto, user.getUsername()));
-
-            return new BoardResponseDto(board);
-        } else {
-            return null;
-        }
+        return new BoardResponseDto(board);
     }
 
     @Transactional
     public BoardResponseDto updateBoard(Long id, BoardRequestDto boardRequestDto, HttpServletRequest request) {
-        //Request에서 Token 가져오기
-        String token = jwtUtil.resolveToken(request);
-        Claims claims;
+        User user = userService.tokenCheck(request);
+//        //Request에서 Token 가져오기
+//        String token = jwtUtil.resolveToken(request);
+//        Claims claims;
+//
+//        //토큰이 있는 경우에만 게시물 작성 가능
+//        if (token != null) {
+//            if (jwtUtil.validateToken(token)) {
+//                claims = jwtUtil.getUserInfoFromToken(token);
+//            } else {
+//                throw new IllegalArgumentException("Token Error");
+//            }
+//
+//            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
+//                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+//            );
 
-        //토큰이 있는 경우에만 게시물 작성 가능
-        if (token != null) {
-            if (jwtUtil.validateToken(token)) {
-                claims = jwtUtil.getUserInfoFromToken(token);
-            } else {
-                throw new IllegalArgumentException("Token Error");
-            }
-
-            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
-            );
-            Board board = boardRepository.findById(id).orElseThrow(
-                    () -> new IllegalArgumentException("게시물이 존재하지 않습니다.")
-            );
-            if (user.getUsername().equals(board.getUsername())) {
-                board.update(boardRequestDto);
-            } else {
-                throw new IllegalArgumentException("등록한 게시묾란 수정할 수 있습니다.");
-            }
-            return new BoardResponseDto(board);
+        Board board = boardRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("게시물이 존재하지 않습니다.")
+        );
+        if (user.getUsername().equals(board.getUsername())) {
+            board.update(boardRequestDto);
         } else {
-            return null;
+            throw new IllegalArgumentException("등록한 게시물을 수정할 수 있습니다.");
         }
+        return new BoardResponseDto(board);
     }
 
     public StatusResponseDto deleteBoard(Long id, HttpServletRequest request) {
-        //Request에서 Token 가져오기
-        String token = jwtUtil.resolveToken(request);
-        Claims claims;
-
-        //토큰이 있는 경우에만 게시물 작성 가능
-        if (token != null) {
-            if (jwtUtil.validateToken(token)) {
-                claims = jwtUtil.getUserInfoFromToken(token);
-            } else {
-                throw new IllegalArgumentException("Token Error");
-            }
-
-            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
-            );
-            Board board = boardRepository.findById(id).orElseThrow(
-                    () -> new IllegalArgumentException("게시물이 존재하지 않습니다.")
-            );
-            if (user.getUsername().equals(board.getUsername())) {
-                boardRepository.deleteById(id);
-            } else {
-                throw new IllegalArgumentException("등록한 게시물만 삭제할 수 있습니다.");
-            }
-            return new StatusResponseDto("삭제완료", HttpStatus.OK.value());
-        }else{
-            return null;
+        User user = userService.tokenCheck(request);
+//        //Request에서 Token 가져오기
+//        String token = jwtUtil.resolveToken(request);
+//        Claims claims;
+//
+//        //토큰이 있는 경우에만 게시물 작성 가능
+//        if (token != null) {
+//            if (jwtUtil.validateToken(token)) {
+//                claims = jwtUtil.getUserInfoFromToken(token);
+//            } else {
+//                throw new IllegalArgumentException("Token Error");
+//            }
+//
+//            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
+//                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+//            );
+        Board board = boardRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("게시물이 존재하지 않습니다.")
+        );
+        if (user.getUsername().equals(board.getUsername())) {
+            boardRepository.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("등록한 게시물만 삭제할 수 있습니다.");
         }
+        return new StatusResponseDto("삭제완료", HttpStatus.OK.value());
     }
 }
 
