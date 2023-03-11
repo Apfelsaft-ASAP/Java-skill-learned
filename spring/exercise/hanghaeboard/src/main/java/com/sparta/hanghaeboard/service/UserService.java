@@ -3,6 +3,7 @@ package com.sparta.hanghaeboard.service;
 import com.sparta.hanghaeboard.dto.LoginRequestDto;
 import com.sparta.hanghaeboard.dto.SignupRequestDto;
 import com.sparta.hanghaeboard.entity.User;
+import com.sparta.hanghaeboard.entity.UserRoleEnum;
 import com.sparta.hanghaeboard.jwt.JwtUtil;
 import com.sparta.hanghaeboard.repository.UserRepository;
 import io.jsonwebtoken.Claims;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class UserService {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
+    private static final String ADMIN_TOKEN = "admin";
 
     @Transactional
     public void signup(SignupRequestDto signupRequestDto) {
@@ -29,7 +31,17 @@ public class UserService {
         if(found.isPresent()) {
             throw  new IllegalArgumentException("중복된 이름이 존재합니다.");
         }
-        User user = new User(username, password);
+
+        UserRoleEnum role = UserRoleEnum.USER;
+        if (signupRequestDto.isAdmin()) {
+            if(!signupRequestDto.getAdminToken().equals(ADMIN_TOKEN)) {
+                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            }
+            else {
+                role = UserRoleEnum.ADMIN;
+            }
+        }
+        User user = new User(username, password, role);
         userRepository.save(user);
     }
 
