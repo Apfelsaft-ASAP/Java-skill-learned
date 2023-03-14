@@ -63,7 +63,7 @@ public class UserService {
     }
 
     public User tokenCheck(HttpServletRequest request) {
-        String token = jwtUtil.resolveToken(request);
+        String token = jwtUtil.resolveToken(request);           //stateless가 있기 때문에 jwt를 쓰는거다.
 
         if (token ==null || !jwtUtil.validateToken(token)) {
             throw new IllegalArgumentException("Token Error");

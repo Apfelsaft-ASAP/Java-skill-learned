@@ -87,6 +87,12 @@ public class BoardService {
         }
         return new StatusResponseDto("삭제완료", HttpStatus.OK.value());
     }
+
+    public Board findBoard(Long id) {
+        return boardRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("게시글이 존재하지 않습니다.")
+        );
+    }
 }
 
 

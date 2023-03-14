@@ -1,12 +1,15 @@
 package com.sparta.hanghaeboard.dto;
 
 import com.sparta.hanghaeboard.entity.Board;
+import com.sparta.hanghaeboard.entity.Comment;
 import com.sparta.hanghaeboard.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,6 +22,8 @@ public class BoardResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
+    private final List<CommentResponseDto> commentList = new ArrayList<>();
+
     public BoardResponseDto(Board board) {
         this.id = board.getId();
         this.title = board.getTitle();
@@ -26,5 +31,9 @@ public class BoardResponseDto {
         this.username = board.getUsername();
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
+
+        for(Comment comment : board.getComment()) {
+            commentList.add(new CommentResponseDto(comment));
+        }
     }
 }

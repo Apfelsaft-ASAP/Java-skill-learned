@@ -1,9 +1,11 @@
 package com.sparta.hanghaeboard.dto;
 
 import com.sparta.hanghaeboard.entity.Comment;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class CommentResponseDto {
     private Long id;
 
@@ -15,6 +17,7 @@ public class CommentResponseDto {
     private LocalDateTime modifiedAt;
 
     public CommentResponseDto(Comment comment) {
+        this.id = comment.getId();
         this.content = comment.getContent();
         this.username = comment.getUsername();
         this.createdAt = comment.getCreatedAt();

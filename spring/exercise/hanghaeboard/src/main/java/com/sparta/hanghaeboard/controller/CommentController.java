@@ -15,8 +15,18 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/comment/{id}")
-    public CommentResponseDto createComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto, HttpServletRequest request) {
-        return commentService.createComment(commentRequestDto,id,request);
+    @PostMapping("/comment")
+    public CommentResponseDto createComment(@RequestBody CommentRequestDto commentRequestDto, HttpServletRequest request) {
+        return commentService.createComment(commentRequestDto,request);
+    }
+
+    @PutMapping("/comment/{id}")
+    public CommentResponseDto updateComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto, HttpServletRequest request) {
+        return commentService.updateComment(id, commentRequestDto, request);
+    }
+
+    @DeleteMapping("/comment/{id}")
+    public CommentResponseDto deleteComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto, HttpServletRequest request) {
+        return commentService.deleteComment(id, commentRequestDto, request);
     }
 }
