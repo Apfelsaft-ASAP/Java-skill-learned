@@ -2,7 +2,6 @@ package com.sparta.hanghaeboard.dto;
 
 import com.sparta.hanghaeboard.entity.Board;
 import com.sparta.hanghaeboard.entity.Comment;
-import com.sparta.hanghaeboard.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BoardResponseDto {
+public class BoardCommentResponseDto {
     private Long id;
     private String title;
     private String content;
@@ -24,7 +23,7 @@ public class BoardResponseDto {
 
     private final List<CommentResponseDto> commentList = new ArrayList<>();
 
-    public BoardResponseDto(Board board) {
+    public BoardCommentResponseDto(Board board) {
         this.id = board.getId();
         this.title = board.getTitle();
         this.content = board.getContent();
@@ -32,7 +31,7 @@ public class BoardResponseDto {
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
 
-        for(Comment comment : board.getComment()) {
+        for(Comment comment : board.getComments()) {
             commentList.add(new CommentResponseDto(comment));
         }
     }

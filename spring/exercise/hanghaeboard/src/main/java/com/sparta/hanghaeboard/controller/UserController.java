@@ -2,7 +2,7 @@ package com.sparta.hanghaeboard.controller;
 
 import com.sparta.hanghaeboard.dto.LoginRequestDto;
 import com.sparta.hanghaeboard.dto.SignupRequestDto;
-import com.sparta.hanghaeboard.dto.StatusResponseDto;
+import com.sparta.hanghaeboard.dto.SecurityExceptionDto;
 import com.sparta.hanghaeboard.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,14 +20,14 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public StatusResponseDto signup(@RequestBody SignupRequestDto signupRequestDto) {
+    public SecurityExceptionDto signup(@RequestBody SignupRequestDto signupRequestDto) {
         userService.signup(signupRequestDto);
-        return new StatusResponseDto("회원가입 성공", HttpStatus.OK.value());
+        return new SecurityExceptionDto(HttpStatus.OK.value(),"회원가입 성공");
     }
 
     @PostMapping("/login")
-    public StatusResponseDto login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
+    public SecurityExceptionDto login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
         userService.login(loginRequestDto, response);
-        return new StatusResponseDto("로그인 성공", HttpStatus.OK.value());
+        return new SecurityExceptionDto(HttpStatus.OK.value(),"로그인 성공");
     }
 }

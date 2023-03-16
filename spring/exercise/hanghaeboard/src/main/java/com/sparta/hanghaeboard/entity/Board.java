@@ -29,16 +29,19 @@ public class Board extends Timestamped{
     private String username;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "board")
-    List<Comment> comment;
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OrderBy(value = "createdAt DESC")
+    private List<Comment> comments = new ArrayList<>();
 
-    public Board(BoardRequestDto boardRequestDto, String username) {
+
+    public Board(BoardRequestDto boardRequestDto, User user) {
+        this.username = user.getUsername();
         this.title = boardRequestDto.getTitle();
         this.content = boardRequestDto.getContent();
-        this.username = username;
+        this.user = user;
     }
 
     public void update(BoardRequestDto boardRequestDto) {
