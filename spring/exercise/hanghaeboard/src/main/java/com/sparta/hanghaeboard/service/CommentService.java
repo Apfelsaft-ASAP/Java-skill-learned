@@ -39,13 +39,13 @@ public class CommentService {
     public CommentResponseDto updateComment(Long id, CommentRequestDto commentRequestDto, HttpServletRequest request) {
         User user = userService.tokenCheck(request);
         Comment comment = commentRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("게시물이 존재하지 않습니다.")
+                () -> new IllegalArgumentException("댓글이 존재하지 않습니다.")
         );
         if(user.getUsername().equals(comment.getUsername()) || UserRoleEnum.ADMIN.equals(user.getRole())) {
             comment.update(commentRequestDto);
         }
         else{
-            throw new IllegalArgumentException("등록한 게시물을 수정할 수 없습니다.");
+            throw new IllegalArgumentException("등록한 댓글을 수정할 수 없습니다.");
         }
         return new CommentResponseDto(comment);
     }
@@ -53,13 +53,13 @@ public class CommentService {
     public CommentResponseDto deleteComment(Long id, CommentRequestDto commentRequestDto, HttpServletRequest request) {
         User user = userService.tokenCheck(request);
         Comment comment = commentRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("게시물이 존재하지 않습니다.")
+                () -> new IllegalArgumentException("댓글이 존재하지 않습니다.")
         );
         if(user.getUsername().equals(comment.getUsername()) || UserRoleEnum.ADMIN.equals(user.getRole())) {
             comment.update(commentRequestDto);
         }
         else{
-            throw new IllegalArgumentException("등록한 게시물을 수정할 수 없습니다.");
+            throw new IllegalArgumentException("등록한 댓글을 수정할 수 없습니다.");
         }
         return new CommentResponseDto(comment);
     }

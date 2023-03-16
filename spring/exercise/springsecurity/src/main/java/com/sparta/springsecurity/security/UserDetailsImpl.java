@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class UserDetailsImpl implements UserDetails {   //user도 담고 username과 password를 생성자로 초기화 할수 있다.
-                                                        //UserDetailsServiceImpl에서 검증해서 가져온 객
+                                                        //UserDetailsServiceImpl에서 검증해서 가져온 객체
     private final User user;
     private final String username;
     private final String password;
