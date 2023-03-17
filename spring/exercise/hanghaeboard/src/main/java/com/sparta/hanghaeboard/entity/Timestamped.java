@@ -1,5 +1,5 @@
 package com.sparta.hanghaeboard.entity;
-
+//
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

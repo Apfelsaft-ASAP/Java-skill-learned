@@ -1,5 +1,5 @@
 package com.sparta.hanghaeboard.repository;
-
+//
 import com.sparta.hanghaeboard.dto.BoardCommentResponseDto;
 import com.sparta.hanghaeboard.entity.Board;
 import org.springframework.data.jpa.repository.JpaRepository;

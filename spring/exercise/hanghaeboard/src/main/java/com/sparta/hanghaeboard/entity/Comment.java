@@ -1,5 +1,5 @@
 package com.sparta.hanghaeboard.entity;
-
+//
 import com.sparta.hanghaeboard.dto.CommentRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,5 +1,5 @@
 package com.sparta.hanghaeboard.exception;
-
+//
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
